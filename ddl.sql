@@ -1,10 +1,10 @@
 -- FILE TABLE
 CREATE TABLE file (
     id                  serial PRIMARY KEY,
-    name                varchar(200),
-    mime                varchar(100),
-    key                 varchar(200),
-    url                 varchar(200),
+    name                varchar(200) NOT NULL,
+    mime                varchar(100) NOT NULL,
+    key                 varchar(200) NOT NULL,
+    url                 varchar(200) NOT NULL,
     created_at          timestamp DEFAULT current_timestamp,
     updated_at          timestamp
 );
@@ -12,11 +12,11 @@ CREATE TABLE file (
 -- USER TABLE
 CREATE TABLE users (
     id                  serial PRIMARY KEY,
-    username            varchar(100),
+    username            varchar(100) NOT NULL UNIQUE,
     first_name          varchar(100),
     last_name           varchar(100),
-    password            varchar(128),
-    email               varchar(320),
+    password            varchar(128) NOT NULL,
+    email               varchar(320) NOT NULL UNIQUE,
     file_id             int,
     created_at          timestamp DEFAULT current_timestamp,
     updated_at          timestamp,
@@ -27,7 +27,7 @@ CREATE TABLE users (
 -- COUNTRY TABLE
 CREATE TABLE country (
     id                  serial PRIMARY KEY,
-    name                varchar(100),
+    name                varchar(100) NOT NULL UNIQUE,
     created_at          timestamp DEFAULT current_timestamp,
     updated_at          timestamp
 );
@@ -38,13 +38,13 @@ CREATE TYPE gender_type AS ENUM ('male', 'female');
 -- PERSON TABLE
 CREATE TABLE person (
     id                  serial PRIMARY KEY,
-    first_name          varchar(100),
-    last_name           varchar(100),
+    first_name          varchar(100) NOT NULL,
+    last_name           varchar(100) NOT NULL,
     biography           text,
     birthdate           date,
-    gender              gender_type,
-    primary_photo_id    int,
-    country_id          int,
+    gender              gender_type NOT NULL,
+    primary_photo_id    int NOT NULL,
+    country_id          int NOT NULL,
     created_at          timestamp,
     updated_at          timestamp,
 
@@ -67,14 +67,14 @@ CREATE TABLE person_file (
 -- MOVIE TABLE
 CREATE TABLE movie (
     id                  serial PRIMARY KEY,
-    title               varchar(100),
+    title               varchar(100) NOT NULL,
     description         text,
-    release_date        date,
+    release_date        date NOT NULL,
     duration            int,
     budget              numeric(15,2),
-    director_id         int,
-    country_id          int,
-    poster_id           int,
+    director_id         int NOT NULL,
+    country_id          int NOT NULL,
+    poster_id           int NOT NULL,
     created_at          timestamp,
     updated_at          timestamp,
 
@@ -98,7 +98,7 @@ CREATE TABLE person_movie (
 -- GENRE TABLE
 CREATE TABLE genre (
     id                  serial PRIMARY KEY,
-    name                varchar(100),
+    name                varchar(100) NOT NULL UNIQUE,
     created_at          timestamp DEFAULT current_timestamp,
     updated_at          timestamp
 );
@@ -133,9 +133,9 @@ CREATE TYPE role_type AS ENUM ('leading', 'supporting', 'background');
 -- CHARACTER TABLE
 CREATE TABLE character (
     id                  serial PRIMARY KEY,
-    name                varchar(100),
+    name                varchar(100) NOT NULL,
     description         text,
-    role                role_type,
+    role                role_type NOT NULL,
     actor_id            int,
     created_at          timestamp,
     updated_at          timestamp,
