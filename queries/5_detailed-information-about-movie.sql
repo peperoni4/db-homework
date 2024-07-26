@@ -28,7 +28,7 @@ INNER JOIN movie_genre as mg
     ON m.id = mg.movie_id
 INNER JOIN genre as g
     ON g.id = mg.genre_id
-WHERE m.country_id = 3 and
+WHERE m.country_id = 1 and
     DATE_PART('year', m.release_date) >= 2022 and
     (m.duration > 60 * 2 + 15) and
     g.name IN ('Action', 'Drama')
