@@ -9,7 +9,7 @@ CREATE TABLE file (
     updated_at          timestamp
 );
 
--- USER TABLE
+-- USER TABLE (users because of name conflict in postgres)
 CREATE TABLE users (
     id                  serial PRIMARY KEY,
     username            varchar(100) NOT NULL UNIQUE,
