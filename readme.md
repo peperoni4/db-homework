@@ -1,23 +1,24 @@
 ## ER diagram
 ```mermaid
 erDiagram
-    User ||--|{ User_Movie : as
-    User {
+    users ||--|{ user_movie : "has favorites"
+    users {
         serial id
+        varchar(100) username
         varchar(100) first_name
         varchar(100) last_name
         varchar(128) password
         varchar(320) email
-        int file_id
+        int file_id "Avatar file"
         timestamp created_at
         timestamp updated_at
-
     }
-    File ||--|{ User : as
-    File ||--|{ Movie : as
-    File ||--|{ Person : as
-    File ||--|{ Person_File : as
-    File {
+
+    file ||--|{ users : "associated with"
+    file ||--|{ movie : "associated with"
+    file ||--|{ person : "associated with"
+    file ||--|{ person_file : "related to"
+    file {
         serial id
         varchar(200) name
         varchar(100) mime
@@ -27,51 +28,52 @@ erDiagram
         timestamp updated_at
     }
 
-    Movie ||--|{ User_Movie : as
-    Movie ||--|{ Movie_Genre : as
-    Movie ||--|{ Movie_Character : as
-    Movie ||--|{ Person_Movie : as
-    Movie {
+    movie ||--|{ user_movie : "appears in favorites"
+    movie ||--|{ movie_genre : "includes"
+    movie ||--|{ movie_character : "features"
+    movie ||--|{ person_movie : "involves"
+    movie {
         serial id
         varchar(100) title
         text description
         numeric(15) budget
+        date release_date
         int duration
         int director_id
         int country_id
+        int poster_id
         timestamp created_at
         timestamp updated_at
     }
 
-    Genre ||--|{ Movie_Genre : as
-    Genre {
+    genre ||--|{ movie_genre : "categorized by"
+    genre {
         serial id
         varchar(100) name
     }
 
-
-    Country ||--|{ Movie : as
-    Country ||--|{ Person : as
-    Country {
+    country ||--|{ movie : "produced in"
+    country ||--|{ person : "home country"
+    country {
         serial id
         varchar(100) name
     }
 
-    Character ||--|{ Movie_Character : as
-    Character {
+    character ||--|{ movie_character : "appears in"
+    character {
         serial id
         varchar(100) name
         text description
-        enum role
+        enum role "Leading, supporting, background"
         int actor_id
         timestamp created_at
         timestamp updated_at
     }
 
-    Person |o--|{ Character : as
-    Person ||--|{ Person_File : as
-    Person ||--|{ Person_Movie : as
-    Person {
+    person |o--|{ character : "portrays"
+    person ||--|{ person_file : "has"
+    person ||--|{ person_movie : "appears in"
+    person {
         serial id
         varchar(200) first_name
         varchar(200) last_name
@@ -84,27 +86,27 @@ erDiagram
         timestamp updated_at
     }
 
-    Person_File {
-        int file_id
-        int person_id
+    person_file {
+        int file_id "Photo file"
+        int person_id "Related person"
     }
 
-    User_Movie {
+    user_movie {
         int user_id
         int movie_id
     }
 
-    Movie_Genre {
+    movie_genre {
         int movie_id
         int genre_id
     }
 
-    Movie_Character {
+    movie_character {
         int movie_id
         int character_id
     }
 
-    Person_Movie {
+    person_movie {
         int person_id
         int movie_id
     }
